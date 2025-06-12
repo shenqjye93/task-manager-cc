@@ -18,13 +18,18 @@ const apiKeyAuth = (req, res, next) => {
 	if (apiKey && apiKey === process.env.API_KEY) {
 		return next();
 	}
-	res.status(401).json({ error: "Unauthorized: Invalid API Key" });
+	res.status(401).json({ error: "Unauthorized: dllm" });
 };
 
 // Apply the security middleware to all /api routes
 app.use("/api", apiKeyAuth);
 
 // --- Routes ---
+app.get("/", (req, res) => {
+	res.send(
+		"<h1>Task Manager API</h1><p>Welcome! Are you sure the server is running.</p>"
+	);
+});
 
 // GET /api/tasks - Get all tasks with filtering and sorting
 app.get("/api/tasks", async (req, res) => {
@@ -68,6 +73,20 @@ app.post("/api/tasks", async (req, res) => {
 		const { title, description, status, due_date } = req.body;
 		if (!title) {
 			return res.status(400).json({ error: "Title is required" });
+		}
+		if (!status) {
+			return res.status(400).json({ error: "Status is a required field." });
+		}
+
+		const allowedStatuses = ["pending", "in-progress", "completed"];
+		if (!allowedStatuses.includes(status)) {
+			return res
+				.status(400)
+				.json({
+					error: `Invalid status. Must be one of: ${allowedStatuses.join(
+						", "
+					)}`,
+				});
 		}
 
 		const newTodo = await db.query(
