@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  # Backend Service (Node.js)
+  backend:
+    build: ./server
+    ports:
+      - "5000:5000"
+    environment:
+      # Pass environment variables to the container
+      - DB_USER=${DB_USER}
+      - DB_HOST=db # Use the service name 'db' as the host
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PORT=${DB_PORT}
+      - PORT=${PORT}
+      - API_KEY=${API_KEY}
+    depends_on:
+      - db # This service depends on the database service
+    volumes:
+      - ./server:/app # Mount local code for development
+      - /app/node_modules # Do not mount node_modules from host
+
+  # Frontend Service (React)
+  frontend:
+    build: ./client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+  # Database Service (PostgreSQL)
+  db:
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Persist data
+
+volumes:
+  postgres_data: # Define the named volume
