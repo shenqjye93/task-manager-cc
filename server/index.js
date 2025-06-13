@@ -10,8 +10,20 @@ const PORT = process.env.PORT || 5000;
 // --- Middleware ---
 app.use(helmet()); // Set security headers
 app.use(express.json()); // Middleware to parse JSON bodies
+
+const allowList = [
+	"http://localhost:3000",
+	"https://task-manager-frontend-0rbs.onrender.com",
+];
+
 const corsOptions = {
-	origin: "https://task-manager-frontend-0rbs.onrender.com",
+	origin: function (origin, callback) {
+		if (allowList.indexOf(origin) !== -1 || !origin) {
+			callback(null, true);
+		} else {
+			callback(new Error("Not allowed by CORS"));
+		}
+	},
 };
 app.use(cors(corsOptions)); // Enable CORS for all routes
 

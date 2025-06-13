@@ -9,13 +9,13 @@ require("dotenv").config();
 // 	password: process.env.DB_PASSWORD,
 // 	port: process.env.DB_PORT,
 // });
-const connectionString = process.env.DB_CONNECTION_STRING;
 
 const pool = new Pool({
-	connectionString: connectionString,
-	ssl: {
-		rejectUnauthorized: false,
-	},
+	connectionString: process.env.DB_CONNECTION_STRING,
+	ssl:
+		process.env.NODE_ENV === "production"
+			? { rejectUnauthorized: false }
+			: false,
 });
 
 // We export a single query function to use throughout our app.
