@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
 const API_KEY = "SECRET12345"; // Use the same key as in the backend .env
 
 const apiClient = axios.create({
