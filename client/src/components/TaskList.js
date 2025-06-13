@@ -190,6 +190,7 @@ const TaskList = () => {
 							<em>All</em>
 						</MenuItem>
 						<MenuItem value="pending">Pending</MenuItem>
+						<MenuItem value="non-pending">Non-Pending</MenuItem>
 						<MenuItem value="in-progress">In Progress</MenuItem>
 						<MenuItem value="completed">Completed</MenuItem>
 					</Select>
@@ -247,6 +248,7 @@ const TaskList = () => {
 							onChange={(e) => setNewStatus(e.target.value)}
 						>
 							<MenuItem value="pending">Pending</MenuItem>
+							<MenuItem value="non-pending">Non-Pending</MenuItem>
 							<MenuItem value="in-progress">In Progress</MenuItem>
 							<MenuItem value="completed">Completed</MenuItem>
 						</Select>
@@ -378,6 +380,7 @@ const TaskList = () => {
 								onChange={handleEditFormChange}
 							>
 								<MenuItem value="pending">Pending</MenuItem>
+								<MenuItem value="non-pending">Non-Pending</MenuItem>
 								<MenuItem value="in-progress">In Progress</MenuItem>
 								<MenuItem value="completed">Completed</MenuItem>
 							</Select>

@@ -1,5 +1,5 @@
 -- Create an ENUM type for status for data integrity
-CREATE TYPE task_status AS ENUM ('pending', 'in-progress', 'completed');
+CREATE TYPE task_status AS ENUM ('pending', 'non-pending','in-progress', 'completed');
 
 -- Create the tasks table
 CREATE TABLE tasks (
