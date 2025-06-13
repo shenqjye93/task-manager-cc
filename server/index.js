@@ -99,7 +99,12 @@ app.post("/api/tasks", async (req, res) => {
 			return res.status(400).json({ error: "Status is a required field." });
 		}
 
-		const allowedStatuses = ["pending", "in-progress", "completed"];
+		const allowedStatuses = [
+			"pending",
+			"non-pending",
+			"in-progress",
+			"completed",
+		];
 		if (!allowedStatuses.includes(status)) {
 			return res.status(400).json({
 				error: `Invalid status. Must be one of: ${allowedStatuses.join(", ")}`,

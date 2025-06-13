@@ -21,10 +21,16 @@ import {
 	DialogTitle,
 	Stack,
 	Paper,
+	ToggleButton,
+	ToggleButtonGroup,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import ViewListIcon from "@mui/icons-material/ViewList";
+import ViewKanbanIcon from "@mui/icons-material/ViewKanban";
+import TaskBoard from "./TaskBoard";
+import AddTaskIcon from "@mui/icons-material/AddTask";
 
 const statusColors = {
 	pending: "#fff3e0",
@@ -46,6 +52,7 @@ const TaskList = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 	const [taskToDeleteId, setTaskToDeleteId] = useState(null);
+	const [viewMode, setViewMode] = useState("list");
 
 	const fetchTasks = useCallback(async () => {
 		setLoading(true);
@@ -157,6 +164,12 @@ const TaskList = () => {
 		setEditingTask({ ...editingTask, [name]: value });
 	};
 
+	const handleViewChange = (event, newViewMode) => {
+		if (newViewMode !== null) {
+			setViewMode(newViewMode);
+		}
+	};
+
 	if (loading)
 		return (
 			<Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
@@ -175,52 +188,73 @@ const TaskList = () => {
 			<Box
 				display="flex"
 				justifyContent="space-between"
+				alignItems="flex-start"
 				mb={2}
 				flexWrap="wrap"
-				gap={2}
 			>
-				<FormControl sx={{ minWidth: 150 }}>
-					<InputLabel>Status</InputLabel>
-					<Select
-						value={filterStatus}
-						label="Status"
-						onChange={(e) => setFilterStatus(e.target.value)}
-					>
-						<MenuItem value="">
-							<em>All</em>
-						</MenuItem>
-						<MenuItem value="pending">Pending</MenuItem>
-						<MenuItem value="non-pending">Non-Pending</MenuItem>
-						<MenuItem value="in-progress">In Progress</MenuItem>
-						<MenuItem value="completed">Completed</MenuItem>
-					</Select>
-				</FormControl>
+				<Box
+					display="flex"
+					justifyContent="space-between"
+					mb={2}
+					flexWrap="wrap"
+					gap={2}
+				>
+					<FormControl sx={{ minWidth: 150 }}>
+						<InputLabel>Status</InputLabel>
+						<Select
+							value={filterStatus}
+							label="Status"
+							onChange={(e) => setFilterStatus(e.target.value)}
+						>
+							<MenuItem value="">
+								<em>All</em>
+							</MenuItem>
+							<MenuItem value="pending">Pending</MenuItem>
+							<MenuItem value="non-pending">Non-Pending</MenuItem>
+							<MenuItem value="in-progress">In Progress</MenuItem>
+							<MenuItem value="completed">Completed</MenuItem>
+						</Select>
+					</FormControl>
 
-				<FormControl sx={{ minWidth: 150 }}>
-					<InputLabel>Sort By</InputLabel>
-					<Select
-						value={sortBy}
-						label="Sort By"
-						onChange={(e) => setSortBy(e.target.value)}
-					>
-						<MenuItem value="created_at">Created Date</MenuItem>
-						<MenuItem value="due_date">Due Date</MenuItem>
-						<MenuItem value="title">Title</MenuItem>
-						<MenuItem value="status">Status</MenuItem>
-					</Select>
-				</FormControl>
+					<FormControl sx={{ minWidth: 150 }}>
+						<InputLabel>Sort By</InputLabel>
+						<Select
+							value={sortBy}
+							label="Sort By"
+							onChange={(e) => setSortBy(e.target.value)}
+						>
+							<MenuItem value="created_at">Created Date</MenuItem>
+							<MenuItem value="due_date">Due Date</MenuItem>
+							<MenuItem value="title">Title</MenuItem>
+							<MenuItem value="status">Status</MenuItem>
+						</Select>
+					</FormControl>
 
-				<FormControl sx={{ minWidth: 120 }}>
-					<InputLabel>Order</InputLabel>
-					<Select
-						value={sortOrder}
-						label="Order"
-						onChange={(e) => setSortOrder(e.target.value)}
-					>
-						<MenuItem value="desc">Descending</MenuItem>
-						<MenuItem value="asc">Ascending</MenuItem>
-					</Select>
-				</FormControl>
+					<FormControl sx={{ minWidth: 120 }}>
+						<InputLabel>Order</InputLabel>
+						<Select
+							value={sortOrder}
+							label="Order"
+							onChange={(e) => setSortOrder(e.target.value)}
+						>
+							<MenuItem value="desc">Descending</MenuItem>
+							<MenuItem value="asc">Ascending</MenuItem>
+						</Select>
+					</FormControl>
+				</Box>
+				<ToggleButtonGroup
+					value={viewMode}
+					exclusive
+					onChange={handleViewChange}
+					aria-label="view mode"
+				>
+					<ToggleButton value="list" aria-label="list view">
+						<ViewListIcon />
+					</ToggleButton>
+					<ToggleButton value="board" aria-label="board view">
+						<ViewKanbanIcon />
+					</ToggleButton>
+				</ToggleButtonGroup>
 			</Box>
 
 			<Paper component="form" onSubmit={handleCreateTask} sx={{ p: 2, mb: 3 }}>
@@ -267,53 +301,62 @@ const TaskList = () => {
 						color="primary"
 						sx={{ height: "56px" }}
 					>
-						Add Task
+						<AddTaskIcon />
 					</Button>
 				</Stack>
 			</Paper>
 
 			{/* Task List */}
-			<List>
-				{tasks.map((task) => (
-					<ListItem
-						key={task.id}
-						secondaryAction={
-							<>
-								{/* --- UPDATED EDIT BUTTON --- */}
-								<IconButton
-									edge="end"
-									aria-label="edit"
-									onClick={() => handleOpenModal(task)}
-								>
-									<EditIcon />
-								</IconButton>
-								<IconButton
-									edge="end"
-									aria-label="delete"
-									onClick={() => handleOpenDeleteConfirm(task.id)}
-								>
-									<DeleteIcon />
-								</IconButton>
-							</>
-						}
-						sx={{
-							bgcolor: statusColors[task.status] || "background.paper",
-							mb: 1,
-							borderRadius: 1,
-							transition: "background-color 0.3s ease-in-out",
-						}}
-					>
-						<ListItemText
-							primary={task.title}
-							secondary={`Status: ${task.status} | Due: ${
-								task.due_date
-									? new Date(task.due_date).toLocaleDateString()
-									: "N/A"
-							}`}
-						/>
-					</ListItem>
-				))}
-			</List>
+			{viewMode === "list" ? (
+				<List>
+					{tasks.map((task) => (
+						<ListItem
+							key={task.id}
+							secondaryAction={
+								<>
+									{/* --- UPDATED EDIT BUTTON --- */}
+									<IconButton
+										edge="end"
+										aria-label="edit"
+										onClick={() => handleOpenModal(task)}
+									>
+										<EditIcon />
+									</IconButton>
+									<IconButton
+										edge="end"
+										aria-label="delete"
+										onClick={() => handleOpenDeleteConfirm(task.id)}
+									>
+										<DeleteIcon />
+									</IconButton>
+								</>
+							}
+							sx={{
+								bgcolor: statusColors[task.status] || "background.paper",
+								mb: 1,
+								borderRadius: 1,
+								transition: "background-color 0.3s ease-in-out",
+							}}
+						>
+							<ListItemText
+								primary={task.title}
+								secondary={`Status: ${task.status} | Due: ${
+									task.due_date
+										? new Date(task.due_date).toLocaleDateString()
+										: "N/A"
+								}`}
+							/>
+						</ListItem>
+					))}
+				</List>
+			) : (
+				<TaskBoard
+					tasks={tasks}
+					onEdit={handleOpenModal}
+					onDelete={handleOpenDeleteConfirm}
+				/>
+			)}
+
 			<Dialog
 				open={isDeleteConfirmOpen}
 				onClose={handleCloseDeleteConfirm}

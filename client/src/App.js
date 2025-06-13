@@ -30,7 +30,11 @@ function App() {
 					variant="h3"
 					component="h1"
 					gutterBottom
+					fontFamily="inter"
+					fontWeight={600}
+					lineHeight={1.2}
 					align="center"
+					color="#1976d2"
 					sx={{ mt: 4, mb: 2 }}
 				>
 					Task Manager
