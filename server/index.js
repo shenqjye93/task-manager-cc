@@ -56,7 +56,13 @@ app.get("/api/tasks", async (req, res) => {
 		const allowedSortBy = ["title", "due_date", "status", "created_at"]; // Whitelist sortable columns
 
 		if (allowedSortBy.includes(sortBy)) {
-			queryText += ` ORDER BY ${sortBy} ${order}`;
+			let sortExpression = sortBy;
+
+			if (sortBy === "title") {
+				sortExpression = `LOWER(${sortBy})`;
+			}
+
+			queryText += ` ORDER BY ${sortExpression} ${order}`;
 		}
 
 		const { rows } = await db.query(queryText, queryParams);
@@ -80,13 +86,9 @@ app.post("/api/tasks", async (req, res) => {
 
 		const allowedStatuses = ["pending", "in-progress", "completed"];
 		if (!allowedStatuses.includes(status)) {
-			return res
-				.status(400)
-				.json({
-					error: `Invalid status. Must be one of: ${allowedStatuses.join(
-						", "
-					)}`,
-				});
+			return res.status(400).json({
+				error: `Invalid status. Must be one of: ${allowedStatuses.join(", ")}`,
+			});
 		}
 
 		const newTodo = await db.query(
