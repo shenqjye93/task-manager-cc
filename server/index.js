@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5000;
 app.use(helmet()); // Set security headers
 app.use(express.json()); // Middleware to parse JSON bodies
 const corsOptions = {
-	origin: "https://task-manager-frontend.onrender.com",
+	origin: "https://task-manager-frontend-0rbs.onrender.com",
 };
 app.use(cors(corsOptions)); // Enable CORS for all routes
 
