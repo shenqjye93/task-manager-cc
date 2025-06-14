@@ -53,8 +53,6 @@ There are two ways to run this project locally: using Docker (recommended for co
 
 ### Method 1: Docker Setup (Recommended)
 
-This is the easiest and most reliable way to get the entire stack running, as it mirrors the production environment.
-
 1.  **Clone the Repository**
 
     ```bash
@@ -63,7 +61,8 @@ This is the easiest and most reliable way to get the entire stack running, as it
     ```
 
 2.  **Create the Environment File**
-    Create a `.env` file in the project's root directory. This file will be used by `docker compose`. **Include this file in .gitignore and should not be committed.**
+
+    - Create a `.env` file in the project's root directory. This file will be used by `docker compose`. **Include this file in .gitignore and should not be committed.**
 
     ```
     # .env (in project root)
@@ -77,16 +76,18 @@ This is the easiest and most reliable way to get the entire stack running, as it
     ```
 
 3.  **Build and Run the Containers**
-    Use the modern `docker compose` command
+
+    - Use the modern `docker compose` command
 
     ```bash
     docker compose up --build
     ```
 
-    This command will build the images for the frontend and backend and start all three services.
+    - This command will build the images for the frontend and backend and start all three services.
 
 4.  **Initialize the Database**
-    The first time you run the application, you need to create the tables in the database container. Open a **new terminal window** and run:
+
+    - The first time you run the application, you need to create the tables in the database container. Open a **new terminal window** and run:
 
     ```bash
     docker compose exec db psql -U myappuser -d task_manager_db < server/database.sql
@@ -139,12 +140,12 @@ This method requires you to have PostgreSQL and Node.js installed on your machin
 
 All endpoints are prefixed with `/api` and require an `X-API-Key` header for authentication.
 
-| Method   | Endpoint     | Description                                    | Request Body (Example)                                    |
-| :------- | :----------- | :--------------------------------------------- | :-------------------------------------------------------- |
-| `GET`    | `/tasks`     | Get all tasks. Supports filtering and sorting. | N/A (Use query params: `?status=pending&sortBy=due_date`) |
-| `POST`   | `/tasks`     | Create a new task.                             | `{ "title": "My New Task", "description": "Details..." }` |
-| `PUT`    | `/tasks/:id` | Update an existing task.                       | `{ "title": "Updated Title", "status": "completed" }`     |
-| `DELETE` | `/tasks/:id` | Delete a specific task.                        | N/A                                                       |
+| Method   | Endpoint     | Description                                     |
+| :------- | :----------- | :---------------------------------------------- |
+| `GET`    | `/tasks`     | Read all tasks. Supports filtering and sorting. |
+| `POST`   | `/tasks`     | Create a new task.                              |
+| `PUT`    | `/tasks/:id` | Update an existing task.                        |
+| `DELETE` | `/tasks/:id` | Delete a specific task.                         |
 
 ---
 
