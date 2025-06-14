@@ -42,7 +42,7 @@ app.use("/api", apiKeyAuth);
 // --- Routes ---
 app.get("/", (req, res) => {
 	res.send(
-		"<h1>Task Manager API</h1><p>Welcome! Are you sure the server is running.</p>"
+		"<h1>Task Manager API</h1><p>Welcome! You're at the root path, head to frontend link to access the app. :)</p>"
 	);
 });
 
