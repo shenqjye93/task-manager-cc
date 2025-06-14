@@ -1,89 +1,158 @@
 # Full-Stack Task Manager
 
-A simple web application for managing tasks, built with the PERN stack (PostgreSQL, Express, React, Node.js) and containerized with Docker.
+A complete task management web application built with PostgreSQL, Express.js, React, Node.js. This project is fully containerized with Docker for easy and consistent development and has been deployed to the cloud.
 
-## Core Features
+![Here's a screenshot showing the  main interface of the Task Manager app.](assets/task-manager.png)
 
-- Create, Read, Update, and Delete (CRUD) tasks.
-- Filter tasks by status (`pending`, `in-progress`, `completed`).
-- Sort tasks by title, due date, status, or creation date.
-- Responsive UI built with Material-UI.
-- Secure API endpoints with a basic API key authentication.
-
-## Tech Stack
-
-- **Backend**: Node.js, Express.js
-- **Frontend**: React.js, Material-UI
-- **Database**: PostgreSQL
-- **Deployment**: Docker, Docker Compose
+![Toggled view](assets/task-manager-toggle.png)
 
 ---
 
-## Setup and Installation
+## 📋 Core Features
+
+- **Full CRUD Functionality:** Create, Read, Update, and Delete tasks.
+- **Advanced Filtering & Sorting:** Dynamically filter tasks by status and sort them by various criteria.
+- **RESTful API:** A well-structured backend API built with Node.js and Express.
+- **Secure Endpoints:** API is secured with a basic API Key authentication middleware.
+- **Responsive Frontend:** A clean and responsive user interface built with React and Material-UI.
+- **Containerized Environment:** The entire stack (frontend, backend, database) is containerized using Docker.
+- **Live Deployment:** The application is deployed and live on Render.
+
+---
+
+## 🛠️ Tech Stack
+
+| Category       | Technology                                          |
+| :------------- | :-------------------------------------------------- |
+| **Frontend**   | React.js, Material-UI, Axios                        |
+| **Backend**    | Node.js, Express.js                                 |
+| **Database**   | PostgreSQL                                          |
+| **DevOps**     | Docker, Docker Compose, WSL 2                       |
+| **Deployment** | Render (for Web Services, Static Site and Database) |
+
+---
+
+## 🚀 Live Demo
+
+- **Frontend:** [https://task-manager-frontend-0rbs.onrender.com](https://task-manager-frontend-0rbs.onrender.com/)
+- **Backend API:** [https://task-manager-backend-9ork.onrender.com](https://task-manager-backend-9ork.onrender.com)
+
+---
+
+## ⚙️ Local Development Setup
+
+There are two ways to run this project locally: using Docker (recommended for consistency) or running the services manually on your local machine.
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (v18+)
-- [Docker](https://www.docker.com/products/docker-desktop/) and Docker Compose
-- A running [PostgreSQL](https://www.postgresql.org/) instance (for local setup without Docker)
+- [Git]
+- [Node.js] (v20 or higher)
+- [Docker Desktop]
+- npm
 
-### 1. Docker Setup (Recommended)
+### Method 1: Docker Setup (Recommended)
 
-This is the easiest way to get the entire stack running.
+This is the easiest and most reliable way to get the entire stack running, as it mirrors the production environment.
 
-1.  **Clone the repository:**
+1.  **Clone the Repository**
 
     ```bash
-    git clone https://github.com/your-username/task-manager.git
+    git clone https://github.com/shenqjye93/task-manager-cc.git
     cd task-manager
     ```
 
-2.  **Create an environment file:**
-    Create a `.env` file in the root directory and copy the contents from the backend `server/.env` example. This file will be used by `docker-compose`.
+2.  **Create the Environment File**
+    Create a `.env` file in the project's root directory. This file will be used by `docker compose`. **Include this file in .gitignore and should not be committed.**
 
     ```
     # .env (in project root)
-    DB_USER=postgres
-    DB_HOST=db
-    DB_DATABASE=task_manager_db
+    DB_USER=myappuser
     DB_PASSWORD=mysecretpassword
+    DB_DATABASE=task_manager_db
+    DB_HOST=db
     DB_PORT=5432
     PORT=5000
-    API_KEY=YOUR_SUPER_SECRET_API_KEY
+    API_KEY=YOUR_SECRET_API_KEY
     ```
 
-3.  **Build and run the containers:**
+3.  **Build and Run the Containers**
+    Use the modern `docker compose` command
 
     ```bash
-    docker-compose up --build
+    docker compose up --build
     ```
 
-4.  **Initialize the database:**
-    In a new terminal, while the containers are running, execute the SQL script to create the table.
+    This command will build the images for the frontend and backend and start all three services.
+
+4.  **Initialize the Database**
+    The first time you run the application, you need to create the tables in the database container. Open a **new terminal window** and run:
 
     ```bash
-    docker-compose exec db psql -U postgres -d task_manager_db < server/database.sql
+    docker compose exec db psql -U myappuser -d task_manager_db < server/database.sql
     ```
 
-5.  **Access the application:**
+5.  **Access the Application**
     - Frontend: [http://localhost:3000](http://localhost:3000)
-    - Backend API: [http://localhost:5000/api/tasks](http://localhost:5000/api/tasks)
+    - Backend API: [http://localhost:5000](http://localhost:5000)
 
-### 2. Local Setup (Without Docker)
+### Method 2: Manual Local Setup (Without Docker)
 
-Follow these steps if you prefer to run the services locally.
+This method requires you to have PostgreSQL and Node.js installed on your machine.
 
-_Instructions for setting up the server and client locally would go here..._
+1.  **Setup the Database**
+
+    - Install and start PostgreSQL on your local machine.
+    - Create a user and a database:
+      ```sql
+      CREATE USER myappuser WITH PASSWORD 'mysecretpassword';
+      CREATE DATABASE task_manager_db OWNER myappuser;
+      ```
+    - Run the schema creation script:
+      ```bash
+      psql -U myappuser -d task_manager_db < server/database.sql
+      ```
+
+2.  **Setup the Backend**
+
+    - In a terminal, navigate to the `server/` directory.
+    - Create a `.env` file with your local database credentials (see `server/.env` example).
+    - Install dependencies and start the server:
+      ```bash
+      cd server
+      npm install
+      npm run dev
+      ```
+
+3.  **Setup the Frontend**
+    - In a **new terminal**, navigate to the `client/` directory.
+    - Install dependencies and start the React app:
+      ```bash
+      cd client
+      npm install
+      npm start
+      ```
 
 ---
 
-## Simple API Documentation
+## 🗂️ API Documentation
 
-All endpoints require an `X-API-Key` header for authentication.
+All endpoints are prefixed with `/api` and require an `X-API-Key` header for authentication.
 
-| Method   | Endpoint         | Description                                    | Query Params                | Request Body (JSON)                         |
-| -------- | ---------------- | ---------------------------------------------- | --------------------------- | ------------------------------------------- |
-| `GET`    | `/api/tasks`     | Get all tasks. Supports filtering and sorting. | `status`, `sortBy`, `order` | N/A                                         |
-| `POST`   | `/api/tasks`     | Create a new task.                             | N/A                         | `{ "title": "...", "description": "..." }`  |
-| `PUT`    | `/api/tasks/:id` | Update an existing task.                       | N/A                         | `{ "title": "...", "status": "completed" }` |
-| `DELETE` | `/api/tasks/:id` | Delete a task.                                 | N/A                         | N/A                                         |
+| Method   | Endpoint     | Description                                    | Request Body (Example)                                    |
+| :------- | :----------- | :--------------------------------------------- | :-------------------------------------------------------- |
+| `GET`    | `/tasks`     | Get all tasks. Supports filtering and sorting. | N/A (Use query params: `?status=pending&sortBy=due_date`) |
+| `POST`   | `/tasks`     | Create a new task.                             | `{ "title": "My New Task", "description": "Details..." }` |
+| `PUT`    | `/tasks/:id` | Update an existing task.                       | `{ "title": "Updated Title", "status": "completed" }`     |
+| `DELETE` | `/tasks/:id` | Delete a specific task.                        | N/A                                                       |
+
+---
+
+## ☁️ Deployment
+
+This application is deployed on **Render**. The deployment strategy is as follows:
+
+- **Database:** Deployed as a **Render PostgreSQL** instance. This provides a managed, secure, and scalable database.
+- **Backend:** Deployed as a **Render Web Service** using its `Dockerfile`. It connects to the database via the internal private network for security and speed.
+- **Frontend:** Deployed as a **Render Static Site**. The React application is built into static HTML/CSS/JS files, which are served globally via Render's CDN for the best performance.
+
+The repository is configured with "Deploy on Push," so any commits to the `master` branch will automatically trigger a new deployment on Render.
