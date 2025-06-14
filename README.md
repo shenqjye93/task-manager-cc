@@ -2,13 +2,20 @@
 
 A complete task management web application built with PostgreSQL, Express.js, React, Node.js. This project is fully containerized with Docker for easy and consistent development and has been deployed to the cloud.
 
+## Live Demo
+
+- **Frontend:** [https://task-manager-frontend-0rbs.onrender.com](https://task-manager-frontend-0rbs.onrender.com/)
+- **Backend API:** [https://task-manager-backend-9ork.onrender.com](https://task-manager-backend-9ork.onrender.com)
+
+---
+
 ![Here's a screenshot showing the  main interface of the Task Manager app.](assets/task-manager.png)
 
 ![Toggled view](assets/task-manager-toggle.png)
 
 ---
 
-## 📋 Core Features
+## Core Features
 
 - **Full CRUD Functionality:** Create, Read, Update, and Delete tasks.
 - **Advanced Filtering & Sorting:** Dynamically filter tasks by status and sort them by various criteria.
@@ -20,7 +27,7 @@ A complete task management web application built with PostgreSQL, Express.js, Re
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Category       | Technology                                          |
 | :------------- | :-------------------------------------------------- |
@@ -32,14 +39,7 @@ A complete task management web application built with PostgreSQL, Express.js, Re
 
 ---
 
-## 🚀 Live Demo
-
-- **Frontend:** [https://task-manager-frontend-0rbs.onrender.com](https://task-manager-frontend-0rbs.onrender.com/)
-- **Backend API:** [https://task-manager-backend-9ork.onrender.com](https://task-manager-backend-9ork.onrender.com)
-
----
-
-## ⚙️ Local Development Setup
+## Local Development Setup
 
 There are two ways to run this project locally: using Docker (recommended for consistency) or running the services manually on your local machine.
 
@@ -134,7 +134,7 @@ This method requires you to have PostgreSQL and Node.js installed on your machin
 
 ---
 
-## 🗂️ API Documentation
+## API Endpoints
 
 All endpoints are prefixed with `/api` and require an `X-API-Key` header for authentication.
 
@@ -147,7 +147,7 @@ All endpoints are prefixed with `/api` and require an `X-API-Key` header for aut
 
 ---
 
-## ☁️ Deployment
+## Deployment
 
 This application is deployed on **Render**. The deployment strategy is as follows:
 
