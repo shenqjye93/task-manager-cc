@@ -9,9 +9,10 @@ A complete task management web application built with PostgreSQL, Express.js, Re
 
 ---
 
-[Here's a screenshot showing the main interface of the Task Manager app.](assets/task-manager.png)
+Here are some screenshot of the main interface of the Task Manager app.
+![Here's a screenshot showing the main interface of the Task Manager app.](assets/task-manager.png)
 
-[Toggled view](assets/task-manager-toggle.png)
+![Toggled view](assets/task-manager-toggle.png)
 
 ---
 
