@@ -7,19 +7,18 @@ services:
     ports:
       - "5000:5000"
     environment:
-      # Pass environment variables to the container
       - DB_USER=${DB_USER}
-      - DB_HOST=db # Use the service name 'db' as the host
+      - DB_HOST=db 
       - DB_DATABASE=${DB_DATABASE}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_PORT=${DB_PORT}
       - PORT=${PORT}
       - API_KEY=${API_KEY}
     depends_on:
-      - db # This service depends on the database service
+      - db 
     volumes:
-      - ./server:/app # Mount local code for development
-      - /app/node_modules # Do not mount node_modules from host
+      - ./server:/app 
+      - /app/node_modules 
 
   # Frontend Service (React)
   frontend:
@@ -34,7 +33,7 @@ services:
 
   # Database Service (PostgreSQL)
   db:
-    image: postgres:14-alpine
+    image: postgres:16-alpine
     environment:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -42,7 +41,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data # Persist data
+      - postgres_data:/var/lib/postgresql/data 
 
 volumes:
-  postgres_data: # Define the named volume
+  postgres_data: 

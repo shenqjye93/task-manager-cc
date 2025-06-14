@@ -1,7 +1,4 @@
-// In client/src/components/TaskBoard.js
-
 import React, { useMemo } from "react";
-// --- 1. IMPORT Stack, and we no longer need Grid ---
 import { Box, Typography, Paper, Stack } from "@mui/material";
 import TaskCard from "./TaskCard";
 
@@ -18,14 +15,11 @@ const Column = ({ title, children }) => (
 		<Typography variant="h6" gutterBottom align="center">
 			{title}
 		</Typography>
-		<Box sx={{ flexGrow: 1 /* Allows this box to grow and fill space */ }}>
-			{children}
-		</Box>
+		<Box sx={{ flexGrow: 1 }}>{children}</Box>
 	</Paper>
 );
 
 const TaskBoard = ({ tasks, onEdit, onDelete }) => {
-	// ... (your useMemo for calculating columns remains exactly the same)
 	const columns = useMemo(() => {
 		const pending = tasks.filter((task) => task.status === "pending");
 		const inProgress = tasks.filter((task) => task.status === "in-progress");
@@ -43,15 +37,12 @@ const TaskBoard = ({ tasks, onEdit, onDelete }) => {
 		return { pending, inProgress, completed, nonPending, dueSoon };
 	}, [tasks]);
 
-	// --- 2. REPLACE Grid container with Stack ---
 	return (
 		<Stack
-			direction={{ xs: "column", md: "row" }} // Stacks vertically on small screens, horizontally on medium+
-			spacing={2} // This uses the modern `gap` property
+			direction={{ xs: "column", md: "row" }}
+			spacing={2}
 			sx={{ width: "100%" }}
 		>
-			{/* --- 3. EACH "COLUMN" IS NOW A DIRECT CHILD OF THE STACK --- */}
-			{/* We tell each child to take up an equal amount of space */}
 			<Box sx={{ flexGrow: 1, flexBasis: 0, minWidth: 0 }}>
 				<Column title="Pending">
 					{columns.pending.map((task) => (

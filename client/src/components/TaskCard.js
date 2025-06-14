@@ -9,7 +9,6 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-// Re-use the same status color mapping
 const statusColors = {
 	pending: "#fff3e0",
 	"in-progress": "#e3f2fd",

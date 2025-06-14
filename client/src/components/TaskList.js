@@ -43,12 +43,12 @@ const TaskList = () => {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const [newTitle, setNewTitle] = useState("");
-	const [newStatus, setNewStatus] = useState("pending"); // Default to pending
+	const [newStatus, setNewStatus] = useState("pending");
 	const [newDueDate, setNewDueDate] = useState("");
 	const [filterStatus, setFilterStatus] = useState("");
 	const [sortBy, setSortBy] = useState("created_at");
 	const [sortOrder, setSortOrder] = useState("desc");
-	const [editingTask, setEditingTask] = useState(null); // Holds the task object being edited
+	const [editingTask, setEditingTask] = useState(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 	const [taskToDeleteId, setTaskToDeleteId] = useState(null);
@@ -88,7 +88,7 @@ const TaskList = () => {
 			const newTaskData = {
 				title: newTitle,
 				status: newStatus,
-				due_date: newDueDate || null, // Send null if the date is empty
+				due_date: newDueDate || null,
 				description: "",
 			};
 
@@ -104,25 +104,25 @@ const TaskList = () => {
 	};
 
 	const handleOpenDeleteConfirm = (id) => {
-		setTaskToDeleteId(id); // Store the ID of the task to be deleted
-		setIsDeleteConfirmOpen(true); // Open the dialog
+		setTaskToDeleteId(id);
+		setIsDeleteConfirmOpen(true);
 	};
 
 	const handleCloseDeleteConfirm = () => {
-		setIsDeleteConfirmOpen(false); // Close the dialog
-		setTaskToDeleteId(null); // Clear the ID
+		setIsDeleteConfirmOpen(false);
+		setTaskToDeleteId(null);
 	};
 
 	const handleConfirmDelete = async () => {
 		if (taskToDeleteId) {
 			try {
 				await deleteTask(taskToDeleteId);
-				fetchTasks(); // Refresh the list after successful deletion
+				fetchTasks();
 			} catch (err) {
 				console.error("Failed to delete task", err);
 				alert("Error: Could not delete the task.");
 			} finally {
-				handleCloseDeleteConfirm(); // Close the dialog whether it succeeded or failed
+				handleCloseDeleteConfirm();
 			}
 		}
 	};
@@ -146,7 +146,6 @@ const TaskList = () => {
 	const handleUpdateTask = async () => {
 		if (!editingTask) return;
 		try {
-			// The 'due_date' can be an empty string, which should be converted to null for the DB
 			const taskToUpdate = {
 				...editingTask,
 				due_date: editingTask.due_date || null,
@@ -306,7 +305,6 @@ const TaskList = () => {
 				</Stack>
 			</Paper>
 
-			{/* Task List */}
 			{viewMode === "list" ? (
 				<List>
 					{tasks.map((task) => (
@@ -314,7 +312,6 @@ const TaskList = () => {
 							key={task.id}
 							secondaryAction={
 								<>
-									{/* --- UPDATED EDIT BUTTON --- */}
 									<IconButton
 										edge="end"
 										aria-label="edit"
@@ -396,7 +393,6 @@ const TaskList = () => {
 			>
 				<DialogTitle>Edit Task</DialogTitle>
 				<DialogContent>
-					{/* Use Stack for easy vertical spacing of form elements */}
 					<Stack spacing={2} sx={{ mt: 1 }}>
 						<TextField
 							label="Title"
@@ -434,7 +430,7 @@ const TaskList = () => {
 							type="date"
 							value={editingTask?.due_date || ""}
 							onChange={handleEditFormChange}
-							InputLabelProps={{ shrink: true }} // Keeps label from overlapping the date
+							InputLabelProps={{ shrink: true }}
 							fullWidth
 						/>
 					</Stack>
