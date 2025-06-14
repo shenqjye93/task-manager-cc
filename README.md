@@ -46,9 +46,9 @@ There are two ways to run this project locally: using Docker (recommended for co
 
 ### Prerequisites
 
-- [Git]
-- [Node.js] (v20 or higher)
-- [Docker Desktop]
+- Git
+- Node.js (v20 or higher)
+- Docker Desktop
 - npm
 
 ### Method 1: Docker Setup (Recommended)
